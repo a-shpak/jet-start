@@ -3,11 +3,15 @@ import { JetView } from "webix-jet";
 export default class DataTableView extends JetView {
 	constructor(app, name, data, columns) {
 		super(app, name);
+		if (!data) {
+			webix.message("Data collection is undefined");
+		}
 		this._dataItems = data;
 		this._tableCols = columns;
 	}
 	config() {
-		const obj = this._dataItems.data.pull[1];
+		const i = this._dataItems.data.order[0];
+		const obj = this._dataItems.data.pull[i];
 		const fields = Object.keys(obj);
 	
 		const table = {
@@ -28,13 +32,14 @@ export default class DataTableView extends JetView {
 			view:"autoform",
 			fields:fields,
 			actionSave:function() {
-				this.$scope.getRoot().queryView({ localId:"form" }).save();
-				this.$scope.getRoot().queryView({ localId:"form" }).clear();
-				this.$scope.getRoot().queryView({ localId:"table" }).clearSelection();
+				const form = this.$scope.$$("form"); 
+				form.save();
+				form.clear();
+				this.$scope.$$("table").clearSelection();
 			},
 			actionCancel:function() {
-				this.$scope.getRoot().queryView({ localId:"form" }).clear();
-				this.$scope.getRoot().queryView({ localId:"table" }).clearSelection();
+				this.$scope.$$("form").clear();
+				this.$scope.$$("table").clearSelection();
 			}
 		};
 
@@ -47,7 +52,7 @@ export default class DataTableView extends JetView {
 		return ui;
 	}
 	init(view) {
-		view.queryView({ localId:"table" }).parse(this._dataItems);
-		view.queryView({ localId:"form" }).bind(view.queryView({localId:"table"}));
+		view.$scope.$$("table").parse(this._dataItems);
+		view.$scope.$$("form").bind(view.queryView({localId:"table"}));
 	}
 }

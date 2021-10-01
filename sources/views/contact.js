@@ -37,6 +37,6 @@ export default class ContactsView extends JetView {
 		return ui;
 	}
 	init(view) {
-		view.queryView({ localId:"list_contacts" }).parse(contactsCollection);
+		view.$scope.$$("list_contacts").parse(contactsCollection);
 	}
 }
