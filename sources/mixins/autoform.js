@@ -1,5 +1,5 @@
-import { isFieldValid } from "../models/helpers.js";
-import { isHandlerValid } from "../models/helpers.js";
+import { isFieldValid } from "../other/helpers.js";
+import { isHandlerValid } from "../other/helpers.js";
 
 webix.protoUI({
 	name:"autoform",
