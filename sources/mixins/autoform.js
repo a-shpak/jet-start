@@ -7,10 +7,7 @@ webix.protoUI({
 		autoFormDefaultValues(config);
 		config.elements = [];
 		config.fields.forEach(value => {
-			// const n = value.toLowerCase().replace(" ", "");
-			if (value != "id"){
-				config.elements.push({ view:"text", label:value, name:value });
-			}
+			config.elements.push({ view:"text", label:value, name:value });
 		});
 		config.elements.push({view:"toolbar", css:"borderless", cols: [
 			{ view:"button", value:"Cancel", inputWidth:150, click:config.actionCancel },

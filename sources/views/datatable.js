@@ -13,7 +13,7 @@ export default class DataTableView extends JetView {
 		return this._dataItems.waitData.then(() => {
 			const data = this._dataItems;
 			const obj = data.getItem(data.getFirstId());
-			const fields = Object.keys(obj);
+			const fields = Object.keys(obj).filter(key => key != "id" && !key.includes("$"));
 
 			const table = {
 				localId:"table",
@@ -24,6 +24,12 @@ export default class DataTableView extends JetView {
 					"wxi-trash":function(e, id) {
 						data.remove(id);
 						return false;
+					}
+				},
+				on:{
+					onAfterSelect:function(item) {
+						const form = this.$scope.$$("form"); 
+						form.setValues(data.getItem(item.id));
 					}
 				}
 			};
@@ -61,6 +67,5 @@ export default class DataTableView extends JetView {
 	}
 	init(view) {
 		view.$scope.$$("table").sync(this._dataItems);
-		view.$scope.$$("form").bind(view.queryView({localId:"table"}));
 	}
 }
