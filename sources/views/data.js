@@ -21,7 +21,7 @@ export default class DataView extends JetView {
 
 		const colsCountries = [
 			{ id:"id", title:"Title" },
-			{ id:"Name", title:"Name", editor:"text" },
+			{ id:"Name", title:"Name", fillspace:true },
 			{ id:"delete", title:"", template:"{common.trashIcon()}" },
 		];
 
@@ -31,8 +31,8 @@ export default class DataView extends JetView {
 
 		const colsStatuses = [
 			{ id:"id", title:"Title" },
-			{ id:"Name", title:"Name", editor:"text" },
-			{ id:"Icon", title:"Icon", editor:"text" },
+			{ id:"Name", title:"Name", fillspace:true },
+			{ id:"Icon", title:"Icon" },
 			{ id:"delete", title:"", template:"{common.trashIcon()}" },
 		];
 

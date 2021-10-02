@@ -60,7 +60,7 @@ export default class DataTableView extends JetView {
 			};
 	
 			const ui = {
-				rows:[
+				cols:[
 					table, 
 					form,
 				]

@@ -13,6 +13,7 @@ webix.protoUI({
 			{ view:"button", value:"Cancel", inputWidth:150, click:config.actionCancel },
 			{ view:"button", value:"Save", css:"webix_primary", align:"right", inputWidth:150, click:() => config.actionSave(this.getValues()) },
 		]});
+		config.elements.push({});
 	},
 }, webix.ui.form);
 
