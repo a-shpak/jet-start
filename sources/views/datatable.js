@@ -1,13 +1,14 @@
 import { JetView } from "webix-jet";
 
 export default class DataTableView extends JetView {
-	constructor(app, data, columns) {
+	constructor(app, data, columns, rules) {
 		super(app);
 		if (!data) {
 			webix.message("Data collection is undefined");
 		}
 		this._dataItems = data;
 		this._tableCols = columns;
+		this._tableRules = rules;
 	}
 	config() {
 		return this._dataItems.waitData.then(() => {
@@ -40,20 +41,22 @@ export default class DataTableView extends JetView {
 				view:"autoform",
 				fields:fields,
 				actionSave:function(values) {
-					if (!values) return;
 					const form = thisClass.$$("form");
-					if (data.exists(values.id)) {
-						data.updateItem(values.id, values);
-					} else {
-						data.add(values);
+					if (form.validate()) {
+						if (data.exists(values.id)) {
+							data.updateItem(values.id, values);
+						} else {
+							data.add(values);
+						}
+						form.clear();
+						thisClass.$$("table").clearSelection();
 					}
-					form.clear();
-					thisClass.$$("table").clearSelection();
 				},
 				actionCancel:function() {
 					this.$scope.$$("form").clear();
 					this.$scope.$$("table").clearSelection();
-				}
+				},
+				rules:this._tableRules,
 			};
 	
 			const ui = {

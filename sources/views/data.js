@@ -25,6 +25,10 @@ export default class DataView extends JetView {
 			{ id:"delete", title:"", template:"{common.trashIcon()}" },
 		];
 
+		const rulesCountries = {
+			"Name": webix.rules.isNotEmpty,
+		};
+
 		const colsStatuses = [
 			{ id:"id", title:"Title" },
 			{ id:"Name", title:"Name", editor:"text" },
@@ -32,13 +36,18 @@ export default class DataView extends JetView {
 			{ id:"delete", title:"", template:"{common.trashIcon()}" },
 		];
 
+		const rulesStatuses = {
+			"Name": webix.rules.isNotEmpty,
+			"Icon": webix.rules.isNotEmpty,
+		};
+
 		const ui = {
 			localId:"cells_data",
 			rows:[
 				tabs,
 				{ cells:[
-					{ id:"cell_countries", rows:[new DataTableView(this.app, countriesCollection, colsCountries)] },
-					{ id:"cell_statuses", rows:[new DataTableView(this.app, statusesCollection, colsStatuses)] },
+					{ id:"cell_countries", rows:[new DataTableView(this.app, countriesCollection, colsCountries, rulesCountries)] },
+					{ id:"cell_statuses", rows:[new DataTableView(this.app, statusesCollection, colsStatuses, rulesStatuses)] },
 				]},
 			]
 		};
