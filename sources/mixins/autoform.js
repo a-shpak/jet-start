@@ -14,31 +14,28 @@ webix.protoUI({
 		});
 		config.elements.push({view:"toolbar", css:"borderless", cols: [
 			{ view:"button", value:"Cancel", inputWidth:150, click:config.actionCancel },
-			{ view:"button", value:"Save", css:"webix_primary", align:"right", inputWidth:150, click:config.actionSave },
+			{ view:"button", value:"Save", css:"webix_primary", align:"right", inputWidth:150, click:() => config.actionSave(this.getValues()) },
 		]});
 	},
 }, webix.ui.form);
 
 function autoFormDefaultValues(config) {
 	if (!isFieldValid(config.fields)) {
-		//webix.message({ type:"error", text:"Property 'Fields' is not valid" });
 		config.fields = ["Field 1", "Field 2"];
 	}
 	if (!isHandlerValid(config.actionSave)) {
-		//webix.message({ type:"error", text:"Property 'actionCancel' is undefined" });
 		config.actionSave = formSaveClick;
 	}
 	if (!isHandlerValid(config.actionCancel)) {
-		//webix.message({ type:"error", text:"Property 'actionSave' is undefined" });
 		config.actionCancel = formCancelClick;
 	}
 }
 
-function formSaveClick() {
-	webix.message("Saved!");
+function formSaveClick(value) {
+	webix.message(value);
 }
 function formCancelClick() {
-	const form = this.getParentView().getParentView();
+	const form = this.queryView("autoform", "parent");
 	webix.confirm({
 		title:"Cancel?",
 		ok:"Yes", cancel:"No",

@@ -37,8 +37,8 @@ export default class DataView extends JetView {
 			rows:[
 				tabs,
 				{ cells:[
-					{ id:"cell_countries", rows:[new DataTableView(this.app, "", countriesCollection, colsCountries)] },
-					{ id:"cell_statuses", rows:[new DataTableView(this.app, "", statusesCollection, colsStatuses)] },
+					{ id:"cell_countries", rows:[new DataTableView(this.app, countriesCollection, colsCountries)] },
+					{ id:"cell_statuses", rows:[new DataTableView(this.app, statusesCollection, colsStatuses)] },
 				]},
 			]
 		};

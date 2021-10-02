@@ -1,8 +1,8 @@
 import { JetView } from "webix-jet";
 
 export default class DataTableView extends JetView {
-	constructor(app, name, data, columns) {
-		super(app, name);
+	constructor(app, data, columns) {
+		super(app);
 		if (!data) {
 			webix.message("Data collection is undefined");
 		}
@@ -10,49 +10,57 @@ export default class DataTableView extends JetView {
 		this._tableCols = columns;
 	}
 	config() {
-		const i = this._dataItems.data.order[0];
-		const obj = this._dataItems.data.pull[i];
-		const fields = Object.keys(obj);
-	
-		const table = {
-			localId:"table",
-			view:"datatable",
-			columns:this._tableCols,
-			select:true,
-			onClick: {
-				"wxi-trash":function(e, id) {
-					this.remove(id);
-					return false;
+		return this._dataItems.waitData.then(() => {
+			const data = this._dataItems;
+			const obj = data.getItem(data.getFirstId());
+			const fields = Object.keys(obj);
+
+			const table = {
+				localId:"table",
+				view:"datatable",
+				columns:this._tableCols,
+				select:true,
+				onClick: {
+					"wxi-trash":function(e, id) {
+						data.remove(id);
+						return false;
+					}
 				}
-			}
-		};
-
-		const form = {
-			localId:"form",
-			view:"autoform",
-			fields:fields,
-			actionSave:function() {
-				const form = this.$scope.$$("form"); 
-				form.save();
-				form.clear();
-				this.$scope.$$("table").clearSelection();
-			},
-			actionCancel:function() {
-				this.$scope.$$("form").clear();
-				this.$scope.$$("table").clearSelection();
-			}
-		};
-
-		const ui = {
-			rows:[
-				table, 
-				form,
-			]
-		};
-		return ui;
+			};
+			
+			const thisClass = this; 
+			const form = {
+				localId:"form",
+				view:"autoform",
+				fields:fields,
+				actionSave:function(values) {
+					if (!values) return;
+					const form = thisClass.$$("form");
+					if (data.exists(values.id)) {
+						data.updateItem(values.id, values);
+					} else {
+						data.add(values);
+					}
+					form.clear();
+					thisClass.$$("table").clearSelection();
+				},
+				actionCancel:function() {
+					this.$scope.$$("form").clear();
+					this.$scope.$$("table").clearSelection();
+				}
+			};
+	
+			const ui = {
+				rows:[
+					table, 
+					form,
+				]
+			};
+			return ui;
+		});
 	}
 	init(view) {
-		view.$scope.$$("table").parse(this._dataItems);
+		view.$scope.$$("table").sync(this._dataItems);
 		view.$scope.$$("form").bind(view.queryView({localId:"table"}));
 	}
 }
