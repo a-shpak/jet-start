@@ -5,6 +5,7 @@ export default {
 	"Settings" : "Settings",
 	"Name" : "Name",
 	"Email" : "Email",
+	"Icon" : "Icon",
 	"Status" : "Status",
 	"Country" : "Country",
 	"Cancel" : "Cancel",

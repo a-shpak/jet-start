@@ -1,16 +1,24 @@
 import { JetView } from "webix-jet";
 import { contactsCollection } from "../../models/contacts";
+import { countriesCollection } from "../../models/countries.js";
+import { statusesCollection } from "../../models/statuses";
 
 export default class ContactsListView extends JetView {
 	config() {
 		return contactsCollection.waitData.then(() => ({
 			view:"list",
 			localId:"list",
-			template:"<div style=\"font-weight:bold;\">#id#. #Name# (#Country#)</div><div>#Email# {common.trashIcon()} </div>",
+			template:function(obj) {
+				const country = countriesCollection.getItem(obj.Country);
+				const status = statusesCollection.getItem(obj.Status);
+				return 	"<div style=\"font-weight:bold;\">" + obj.id + ". " + obj.Name + " (" + obj.Email + ")</div>" + 
+						"<div> from " + country.Name + ", " + status.Name + "<span class='webix_icon wxi-trash' style=\"float:right;\"></span></div>";
+			},
 			onClick:{
-				// "wxi-trash":function(id) {
-					
-				// }
+				"wxi-trash":function(e, id) {
+					contactsCollection.remove(id);
+					return false;
+				}
 			},
 			type:{
 				height:60,
