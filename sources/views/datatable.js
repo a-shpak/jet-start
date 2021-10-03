@@ -15,7 +15,7 @@ export default class DataTableView extends JetView {
 			const data = this._dataItems;
 			const obj = data.getItem(data.getFirstId());
 			const fields = Object.keys(obj).filter(key => key != "id" && !key.includes("$"));
-
+			
 			const table = {
 				localId:"table",
 				view:"datatable",
