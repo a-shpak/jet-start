@@ -35,13 +35,12 @@ export default class DataTableView extends JetView {
 				}
 			};
 			
-			const thisClass = this; 
+			const self = this; 
 			const form = {
 				localId:"form",
 				view:"autoform",
 				fields:fields,
-				actionSave:function(values) {
-					const form = thisClass.$$("form");
+				actionSave:function(values, form) {
 					if (form.validate()) {
 						if (data.exists(values.id)) {
 							data.updateItem(values.id, values);
@@ -49,7 +48,7 @@ export default class DataTableView extends JetView {
 							data.add(values);
 						}
 						form.clear();
-						thisClass.$$("table").clearSelection();
+						self.$$("table").clearSelection();
 					}
 				},
 				actionCancel:function() {

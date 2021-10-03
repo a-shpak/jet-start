@@ -14,7 +14,7 @@ webix.protoUI({
 		const cancel = _("Cancel");
 		config.elements.push({view:"toolbar", css:"borderless", cols: [
 			{ view:"button", value:cancel, inputWidth:150, click:config.actionCancel },
-			{ view:"button", value:save, css:"webix_primary", align:"right", inputWidth:150, click:() => config.actionSave(this.getValues()) },
+			{ view:"button", value:save, css:"webix_primary", align:"right", inputWidth:150, click:() => config.actionSave(this.getValues(), this) },
 		]});
 		config.elements.push({});
 		config.maxWidth = 400;	

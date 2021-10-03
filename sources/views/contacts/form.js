@@ -17,26 +17,15 @@ export default class ContactsFormView extends JetView {
 		return {
 			view:"form",
 			localId:"form",
-
 			elements:[
 				{ view:"template", type:"section", template:edit },
 				{ view:"text", label:name, name:"Name" },
 				{ view:"text", label:email, name:"Email" },
-				{ view:"richselect", label:status, name:"Status", options:{data:statusesCollection,template:(obj) => obj.Name }},
-				{ view:"richselect", label:country, name:"Country", options:{data:countriesCollection,template:(obj) => obj.Name }},
+				{ view:"combo", label:status, name:"Status", options:{ body:{ data:statusesCollection, template:"#Name#" }} },
+				{ view:"combo", label:country, name:"Country", options:{ body:{ data:countriesCollection, template:"#Name#" }} },
 				{ cols:[ 
-					{ view:"button", label:save, css:"webix_primary", click:function() {
-						const values = this.$scope.$$("form").getValues();
-						if (!contactsCollection.exists(values.id)) {
-							contactsCollection.add(values);
-						} else {
-							contactsCollection.updateItem(values.id, values);
-						}
-					} },
-					{ view:"button", label:cancel, click:function() {
-						this.$scope.$$("form").clear();
-						this.$scope.app.callEvent("onClearContactsForm", []); 
-					} },
+					{ view:"button", label:save, css:"webix_primary", click:saveClick },
+					{ view:"button", label:cancel, click:cancelClick },
 				] },
 				{}
 			],
@@ -46,4 +35,18 @@ export default class ContactsFormView extends JetView {
 		const form = this.$$("form");
 		this.on(this.app, "onContactItemSelected", (item) => form.setValues(item));
 	}
+}
+
+function saveClick() {
+	const values = this.$scope.$$("form").getValues();
+	if (!contactsCollection.exists(values.id)) {
+		contactsCollection.add(values);
+	} else {
+		contactsCollection.updateItem(values.id, values);
+	}
+}
+
+function cancelClick() {
+	this.$scope.$$("form").clear();
+	this.$scope.app.callEvent("onClearContactsForm", []); 
 }
