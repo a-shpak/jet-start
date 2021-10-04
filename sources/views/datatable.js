@@ -17,8 +17,6 @@ export default class DataTableView extends JetView {
 	config() {
 		return this._dataItems.waitData.then(() => {
 			const data = this._dataItems;
-			// const obj = data.getItem(data.getFirstId()); 
-			// const fields = obj ? Object.keys(obj).filter(key => !key.includes("$") && key != "id" && key.toLowerCase() != "code") : extra;
 			const fields = this._tableCols.map(obj => obj.id).filter(key => !key.includes("$") && !exeptValues.some(val => val == key.toLowerCase()));
 			
 			const table = {
