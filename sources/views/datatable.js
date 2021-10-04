@@ -1,7 +1,7 @@
 import { JetView } from "webix-jet";
 
 export default class DataTableView extends JetView {
-	constructor(app, data, columns, rules) {
+	constructor(app, data, columns, rules, url) {
 		super(app);
 		if (!data) {
 			webix.message("Data collection is undefined");
@@ -9,6 +9,7 @@ export default class DataTableView extends JetView {
 		this._dataItems = data;
 		this._tableCols = columns;
 		this._tableRules = rules;
+		this._url = url;
 	}
 	config() {
 		return this._dataItems.waitData.then(() => {
@@ -23,9 +24,12 @@ export default class DataTableView extends JetView {
 				select:true,
 				onClick: {
 					"wxi-trash":function(e, id) {
-						data.remove(id);
-						this.$scope.$$("form").clear();
-						return false;
+						return webix.ajax().delete(this._url, id, (result) => {
+							console.log(result);
+							data.remove(id);
+							this.$scope.$$("form").clear();
+							return false;
+						});
 					}
 				},
 				on:{
@@ -46,7 +50,10 @@ export default class DataTableView extends JetView {
 						if (data.exists(values.id)) {
 							data.updateItem(values.id, values);
 						} else {
-							data.add(values);
+							webix.ajax().post(self._url, values, (result) => {
+								values.id = result.id;
+								data.add(values);
+							});
 						}
 						form.clear();
 						self.$$("table").clearSelection();

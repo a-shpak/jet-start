@@ -2,6 +2,7 @@ import { JetView } from "webix-jet";
 import DataTableView from "./datatable.js";
 import { countriesCollection } from "../models/countries.js";
 import { statusesCollection } from "../models/statuses.js";
+import { URLs } from "../other/urls.js";
 
 export default class DataView extends JetView {
 
@@ -53,8 +54,8 @@ export default class DataView extends JetView {
 			rows:[
 				tabs,
 				{ cells:[
-					{ id:"cell_countries", rows:[new DataTableView(this.app, countriesCollection, colsCountries, rulesCountries)] },
-					{ id:"cell_statuses", rows:[new DataTableView(this.app, statusesCollection, colsStatuses, rulesStatuses)] },
+					{ id:"cell_countries", rows:[new DataTableView(this.app, countriesCollection, colsCountries, rulesCountries, URLs.urlCountries)] },
+					{ id:"cell_statuses", rows:[new DataTableView(this.app, statusesCollection, colsStatuses, rulesStatuses, URLs.urlStatuses)] },
 				]},
 			]
 		};
