@@ -7,8 +7,7 @@ export default class ContactsListView extends JetView {
 	config() {
 		return webix.promise.all([
 			countriesCollection.waitData,
-			statusesCollection.waitData,
-			contactsCollection.waitData])
+			statusesCollection.waitData])
 			.then(() => ({
 				view:"list",
 				localId:"list",
