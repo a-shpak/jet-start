@@ -24,7 +24,7 @@ export default class DataView extends JetView {
 			}
 		};	
 
-		const name = _("Name");
+		const name = _("Value");
 		const icon = _("Icon");
 
 		const colsCountries = [
@@ -39,13 +39,13 @@ export default class DataView extends JetView {
 
 		const colsStatuses = [
 			{ id:"id", header:"" },
-			{ id:"Name", header:name, fillspace:true },
+			{ id:"Value", header:name, fillspace:true },
 			{ id:"Icon", header:icon },
 			{ id:"delete", header:"", template:"{common.trashIcon()}" },
 		];
 
 		const rulesStatuses = {
-			"Name": webix.rules.isNotEmpty,
+			"Value": webix.rules.isNotEmpty,
 			"Icon": webix.rules.isNotEmpty,
 		};
 

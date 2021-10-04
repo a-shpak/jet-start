@@ -15,4 +15,5 @@ export default {
 	"edit contact" : "редактировать контакт",
 	"Countries" : "Страны",
 	"Statuses" : "Статусы",
+	"Value" : "Значение",
 };

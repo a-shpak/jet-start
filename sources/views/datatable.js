@@ -1,5 +1,5 @@
 import { JetView } from "webix-jet";
-import { showError } from "../other/helpers.js"
+import { showError } from "../other/helpers.js";
 
 export default class DataTableView extends JetView {
 	constructor(app, data, columns, rules, url) {
@@ -53,7 +53,7 @@ export default class DataTableView extends JetView {
 							}).fail(showError());
 						} else {
 							webix.ajax().post(self._url, values, (result) => {
-								values.id = result.id;
+								values.id = JSON.parse(result).id;
 								data.add(values);
 							}).fail(showError());
 						}

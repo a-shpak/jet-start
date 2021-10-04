@@ -21,7 +21,7 @@ export default class ContactsFormView extends JetView {
 				{ view:"template", type:"section", template:edit },
 				{ view:"text", label:name, name:"Name" },
 				{ view:"text", label:email, name:"Email" },
-				{ view:"combo", label:status, name:"Status", options:{ body:{ data:statusesCollection, template:"#Name#" }} },
+				{ view:"combo", label:status, name:"Status", options:{ body:{ data:statusesCollection, template:"#Value#" }} },
 				{ view:"combo", label:country, name:"Country", options:{ body:{ data:countriesCollection, template:"#Name#" }} },
 				{ cols:[ 
 					{ view:"button", label:save, css:"webix_primary", click:saveClick },
