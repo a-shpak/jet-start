@@ -1,4 +1,5 @@
 import { JetView } from "webix-jet";
+import { showError } from "../other/helpers.js"
 
 export default class DataTableView extends JetView {
 	constructor(app, data, columns, rules, url) {
@@ -15,7 +16,7 @@ export default class DataTableView extends JetView {
 		return this._dataItems.waitData.then(() => {
 			const data = this._dataItems;
 			const obj = data.getItem(data.getFirstId());
-			const fields = Object.keys(obj).filter(key => key != "id" && !key.includes("$"));
+			const fields = Object.keys(obj).filter(key => !key.includes("$") && key != "id" && key.toLowerCase() != "code");
 			
 			const table = {
 				localId:"table",
@@ -23,13 +24,12 @@ export default class DataTableView extends JetView {
 				columns:this._tableCols,
 				select:true,
 				onClick: {
-					"wxi-trash":function(e, id) {
-						return webix.ajax().delete(this._url, id, (result) => {
-							console.log(result);
-							data.remove(id);
+					"wxi-trash":function(e, obj) {
+						return webix.ajax().del(this.$scope._url + obj.row, { id : obj.row }).then(() => {
+							data.remove(obj);
 							this.$scope.$$("form").clear();
 							return false;
-						});
+						}).fail(showError());
 					}
 				},
 				on:{
@@ -48,12 +48,14 @@ export default class DataTableView extends JetView {
 				actionSave:function(values, form) {
 					if (form.validate()) {
 						if (data.exists(values.id)) {
-							data.updateItem(values.id, values);
+							webix.ajax().put(self._url + values.id, values, () => {
+								data.updateItem(values.id, values);
+							}).fail(showError());
 						} else {
 							webix.ajax().post(self._url, values, (result) => {
 								values.id = result.id;
 								data.add(values);
-							});
+							}).fail(showError());
 						}
 						form.clear();
 						self.$$("table").clearSelection();

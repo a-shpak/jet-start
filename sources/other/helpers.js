@@ -13,3 +13,12 @@ export function isHandlerValid(obj) {
 export function isFieldValid(obj) {
 	return (!!obj && isObject(obj));
 }
+
+export function showError(err = "Request error.") {
+	return () => {
+		webix.message({
+			text:err,
+			type:"error",
+		});
+	};
+}
