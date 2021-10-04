@@ -1,0 +1,18 @@
+export default {
+	"App" : "Приложение",
+	"Data" : "Данные",
+	"Contacts" : "Контакты",
+	"Settings" : "Настройки",
+	"Name" : "Название",
+	"Email" : "Эл. почта",
+	"Icon" : "Иконка",
+	"Status" : "Статус",
+	"Country" : "Страна",
+	"Cancel" : "Отменить",
+	"Save" : "Сохранить",
+	"Russian" : "Русский",
+	"English" : "Английский",
+	"edit contact" : "редактировать контакт",
+	"Countries" : "Страны",
+	"Statuses" : "Статусы",
+};

@@ -5,15 +5,19 @@ webix.protoUI({
 	name:"autoform",
 	$init:function(config) {
 		autoFormDefaultValues(config);
+		const _ = this.$scope.app.getService("locale")._;
 		config.elements = [];
 		config.fields.forEach(value => {
-			config.elements.push({ view:"text", label:value, name:value });
+			config.elements.push({ view:"text", label:_(value), name:value });
 		});
+		const save = _("Save");
+		const cancel = _("Cancel");
 		config.elements.push({view:"toolbar", css:"borderless", cols: [
-			{ view:"button", value:"Cancel", inputWidth:150, click:config.actionCancel },
-			{ view:"button", value:"Save", css:"webix_primary", align:"right", inputWidth:150, click:() => config.actionSave(this.getValues()) },
+			{ view:"button", value:cancel, inputWidth:150, click:config.actionCancel },
+			{ view:"button", value:save, css:"webix_primary", align:"right", inputWidth:150, click:() => config.actionSave(this.getValues(), this) },
 		]});
 		config.elements.push({});
+		config.maxWidth = 400;	
 	},
 }, webix.ui.form);
 

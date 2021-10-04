@@ -1,19 +1,22 @@
 import {JetView, plugins} from "webix-jet";
 
 export default class TopView extends JetView{
-	config(){
+	config() {
+		const _ = this.app.getService("locale")._;
+		const app = _("App");
 		var header = {
-			type:"header", template:this.app.config.name, css:"webix_header app_header"
+			type:"header", template:app, css:"webix_header app_header"
 		};
-
 		var menu = {
 			view:"menu", id:"top:menu", 
 			css:"app_menu",
 			width:180, layout:"y", select:true,
-			template:"<span class='webix_icon #icon#'></span> #value# ",
+			template:function(obj) {
+				return _(obj.value);
+			},
 			data:[
 				{ value:"Data",		id:"data", },
-				{ value:"Contacts", id:"contact",},
+				{ value:"Contacts", id:"contact", },
 				{ value:"Settings", id:"settings", },
 			]
 		};
