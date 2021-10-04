@@ -24,6 +24,7 @@ export default class DataTableView extends JetView {
 				onClick: {
 					"wxi-trash":function(e, id) {
 						data.remove(id);
+						this.$scope.$$("form").clear();
 						return false;
 					}
 				},

@@ -9,14 +9,20 @@ export default class ContactsListView extends JetView {
 			view:"list",
 			localId:"list",
 			template:function(obj) {
-				const country = countriesCollection.getItem(obj.Country);
-				const status = statusesCollection.getItem(obj.Status);
-				return 	"<div style=\"font-weight:bold;\">" + obj.id + ". " + obj.Name + " (" + obj.Email + ")</div>" + 
-						"<div> from " + country.Name + ", " + status.Name + "<span class='webix_icon wxi-trash' style=\"float:right;\"></span></div>";
+				let country = countriesCollection.getItem(obj.Country);
+				let status = statusesCollection.getItem(obj.Status);
+				let dCountry = !country ? "" : `from ${country.Name}`;
+				let dStatus = !status ? "" : `[${status.Name}]`;
+				if (!status) status = {Name:""};
+				return 	`<div style="font-weight:bold;">${obj.Name}. (${obj.Email})</div>` + 
+						`<div> ${dCountry} ${dStatus} <span class='webix_icon wxi-trash' style='float:right;'></span></div>`;
 			},
 			onClick:{
 				"wxi-trash":function(e, id) {
 					contactsCollection.remove(id);
+					this.$scope.$$("list").unselectAll();
+					this.$scope.app.show("top/contact");
+					this.$scope.app.callEvent("onAfterContactDeleted", []);
 					return false;
 				}
 			},
@@ -44,6 +50,11 @@ export default class ContactsListView extends JetView {
 		}
 		this.on(this.app, "onClearContactsForm", function() {
 			list.unselectAll();
+		});
+		this.on(this.app, "onAfterContactAdded", function() {
+			const lastId = contactsCollection.getLastId();
+			view.$scope.app.show("top/contact?id=" + lastId);
+			list.select(lastId);
 		});
 	}
 }

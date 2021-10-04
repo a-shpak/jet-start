@@ -29,18 +29,35 @@ export default class ContactsFormView extends JetView {
 				] },
 				{}
 			],
+			rules:{
+				Name:val => !!val,
+				Email:val => !!val,
+			}
 		};
 	}
 	init() {
 		const form = this.$$("form");
-		this.on(this.app, "onContactItemSelected", (item) => form.setValues(item));
+		this.on(this.app, "onContactItemSelected", function(item) {
+			form.clearValidation();
+			if (contactsCollection.exists(item.id)) {
+				form.setValues(item);
+			} else {
+				this.$scope.app.show("top/contact");
+			}
+		});
+		this.on(this.app, "onAfterContactDeleted", () => form.clear());
 	}
 }
 
 function saveClick() {
-	const values = this.$scope.$$("form").getValues();
+	const form = this.$scope.$$("form");
+	if (!form.validate()) {
+		return;
+	}
+	const values = form.getValues();
 	if (!contactsCollection.exists(values.id)) {
 		contactsCollection.add(values);
+		this.$scope.app.callEvent("onAfterContactAdded", []);
 	} else {
 		contactsCollection.updateItem(values.id, values);
 	}
