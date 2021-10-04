@@ -34,6 +34,7 @@ export default class ContactsFormView extends JetView {
 	init() {
 		const form = this.$$("form");
 		this.on(this.app, "onContactItemSelected", (item) => form.setValues(item));
+		this.on(this.app, "onAfterContactDeleted", () => form.clear());
 	}
 }
 
