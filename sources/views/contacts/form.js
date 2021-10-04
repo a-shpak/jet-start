@@ -33,7 +33,13 @@ export default class ContactsFormView extends JetView {
 	}
 	init() {
 		const form = this.$$("form");
-		this.on(this.app, "onContactItemSelected", (item) => form.setValues(item));
+		this.on(this.app, "onContactItemSelected", function(item) {
+			if (contactsCollection.exists(item.id)) {
+				form.setValues(item);
+			} else {
+				this.$scope.app.show("top/contact");
+			}
+		});
 		this.on(this.app, "onAfterContactDeleted", () => form.clear());
 	}
 }

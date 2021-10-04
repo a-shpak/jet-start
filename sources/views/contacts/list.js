@@ -20,6 +20,7 @@ export default class ContactsListView extends JetView {
 			onClick:{
 				"wxi-trash":function(e, id) {
 					contactsCollection.remove(id);
+					this.$scope.app.show("top/contact");
 					this.$scope.app.callEvent("onAfterContactDeleted", []);
 					return false;
 				}
