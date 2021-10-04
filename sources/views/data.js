@@ -6,11 +6,15 @@ import { statusesCollection } from "../models/statuses.js";
 export default class DataView extends JetView {
 
 	config() {
+		const _ = this.app.getService("locale")._;
+		const countries = _("Countries");
+		const statuses = _("Statuses");
+
 		const tabs = {
 			view:"tabbar",
 			options:[
-				{ id:"cell_countries", value:"Countries" },
-				{ id:"cell_statuses", value:"Statuses" },
+				{ id:"cell_countries", value:countries },
+				{ id:"cell_statuses", value:statuses },
 			],
 			on:{
 				onChange:function(nextId) {
@@ -19,10 +23,13 @@ export default class DataView extends JetView {
 			}
 		};	
 
+		const name = _("Name");
+		const icon = _("Icon");
+
 		const colsCountries = [
-			{ id:"id", title:"Title" },
-			{ id:"Name", title:"Name", fillspace:true },
-			{ id:"delete", title:"", template:"{common.trashIcon()}" },
+			{ id:"id", header:"" },
+			{ id:"Name", header:name, fillspace:true },
+			{ id:"delete", header:"", template:"{common.trashIcon()}" },
 		];
 
 		const rulesCountries = {
@@ -30,10 +37,10 @@ export default class DataView extends JetView {
 		};
 
 		const colsStatuses = [
-			{ id:"id", title:"Title" },
-			{ id:"Name", title:"Name", fillspace:true },
-			{ id:"Icon", title:"Icon" },
-			{ id:"delete", title:"", template:"{common.trashIcon()}" },
+			{ id:"id", header:"" },
+			{ id:"Name", header:name, fillspace:true },
+			{ id:"Icon", header:icon },
+			{ id:"delete", header:"", template:"{common.trashIcon()}" },
 		];
 
 		const rulesStatuses = {

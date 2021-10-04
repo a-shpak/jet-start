@@ -15,7 +15,7 @@ export default class DataTableView extends JetView {
 			const data = this._dataItems;
 			const obj = data.getItem(data.getFirstId());
 			const fields = Object.keys(obj).filter(key => key != "id" && !key.includes("$"));
-
+			
 			const table = {
 				localId:"table",
 				view:"datatable",
@@ -24,6 +24,7 @@ export default class DataTableView extends JetView {
 				onClick: {
 					"wxi-trash":function(e, id) {
 						data.remove(id);
+						this.$scope.$$("form").clear();
 						return false;
 					}
 				},
@@ -35,13 +36,12 @@ export default class DataTableView extends JetView {
 				}
 			};
 			
-			const thisClass = this; 
+			const self = this; 
 			const form = {
 				localId:"form",
 				view:"autoform",
 				fields:fields,
-				actionSave:function(values) {
-					const form = thisClass.$$("form");
+				actionSave:function(values, form) {
 					if (form.validate()) {
 						if (data.exists(values.id)) {
 							data.updateItem(values.id, values);
@@ -49,7 +49,7 @@ export default class DataTableView extends JetView {
 							data.add(values);
 						}
 						form.clear();
-						thisClass.$$("table").clearSelection();
+						self.$$("table").clearSelection();
 					}
 				},
 				actionCancel:function() {
