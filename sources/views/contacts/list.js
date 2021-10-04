@@ -20,6 +20,7 @@ export default class ContactsListView extends JetView {
 			onClick:{
 				"wxi-trash":function(e, id) {
 					contactsCollection.remove(id);
+					this.$scope.$$("list").unselectAll();
 					this.$scope.app.show("top/contact");
 					this.$scope.app.callEvent("onAfterContactDeleted", []);
 					return false;
@@ -49,6 +50,11 @@ export default class ContactsListView extends JetView {
 		}
 		this.on(this.app, "onClearContactsForm", function() {
 			list.unselectAll();
+		});
+		this.on(this.app, "onAfterContactAdded", function() {
+			const lastId = contactsCollection.getLastId();
+			view.$scope.app.show("top/contact?id=" + lastId);
+			list.select(lastId);
 		});
 	}
 }
