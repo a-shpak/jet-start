@@ -56,11 +56,6 @@ function saveClick() {
 	}
 	const values = form.getValues();
 	if (!contactsCollection.exists(values.id)) {
-		// webix.ajax().post(URLs.urlContacts, values, (result) => {
-		// 	values.id = JSON.parse(result).id;
-		// 	contactsCollection.add(values);
-		// 	this.$scope.app.callEvent("onAfterContactAdded", []);
-		// }).fail(showError());
 		contactsCollection.waitSave(() => {
 			contactsCollection.add(values);
 		}).then((result) => {
@@ -71,9 +66,6 @@ function saveClick() {
 		contactsCollection.waitSave(() => {
 			contactsCollection.updateItem(values.id, values);
 		});
-		// webix.ajax().put(URLs.urlContacts + values.id, values, () => {
-		// 	contactsCollection.updateItem(values.id, values);
-		// }).fail(showError());
 	}
 }
 

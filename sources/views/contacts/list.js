@@ -21,11 +21,6 @@ export default class ContactsListView extends JetView {
 				},
 				onClick:{
 					"wxi-trash":function(e, id) {
-						// contactsCollection.remove(id);
-						// this.$scope.$$("list").unselectAll();
-						// this.$scope.app.show("top/contact");
-						// this.$scope.app.callEvent("onAfterContactDeleted", []);
-						// return false;
 						contactsCollection.waitSave(() => {
 							contactsCollection.remove(id);
 						});
