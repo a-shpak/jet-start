@@ -2,8 +2,6 @@ import { JetView } from "webix-jet";
 import { contactsCollection } from "../../models/contacts.js";
 import { statusesCollection } from "../../models/statuses.js";
 import { countriesCollection } from "../../models/countries.js";
-import { URLs } from "../../other/urls.js";
-import { showError } from "../../other/helpers.js";
 
 export default class ContactsFormView extends JetView {
 	config() {
