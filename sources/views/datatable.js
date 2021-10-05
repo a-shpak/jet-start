@@ -26,11 +26,10 @@ export default class DataTableView extends JetView {
 				select:true,
 				onClick: {
 					"wxi-trash":function(e, obj) {
-						return webix.ajax().del(this.$scope._url + obj.row, { id : obj.row }).then(() => {
-							data.remove(obj);
-							this.$scope.$$("form").clear();
-							return false;
-						}).fail(showError());
+						data.waitSave(() => {
+							data.remove(obj); 
+						});
+						return false;
 					}
 				},
 				on:{
@@ -49,14 +48,15 @@ export default class DataTableView extends JetView {
 				actionSave:function(values, form) {
 					if (form.validate()) {
 						if (data.exists(values.id)) {
-							webix.ajax().put(self._url + values.id, values, () => {
+							data.waitSave(() => {
 								data.updateItem(values.id, values);
-							}).fail(showError());
+							});
 						} else {
-							webix.ajax().post(self._url, values, (result) => {
-								values.id = JSON.parse(result).id;
+							data.waitSave(() => {
 								data.add(values);
-							}).fail(showError());
+							}).then(result => {
+								values.id = result.id;
+							});
 						}
 						form.clear();
 						self.$$("table").clearSelection();
@@ -82,4 +82,3 @@ export default class DataTableView extends JetView {
 		view.$scope.$$("table").sync(this._dataItems);
 	}
 }
-
