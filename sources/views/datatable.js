@@ -76,7 +76,7 @@ export default class DataTableView extends JetView {
 				]
 			};
 			return ui;
-		});
+		}).fail(showError("Datatabe is not loaded"));
 	}
 	init(view) {
 		view.$scope.$$("table").sync(this._dataItems);

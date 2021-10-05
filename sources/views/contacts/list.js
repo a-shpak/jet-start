@@ -16,8 +16,8 @@ export default class ContactsListView extends JetView {
 					const status = statusesCollection.getItem(obj.StatusID);
 					let dCountry = !country ? "" : `from ${country.Name}`;
 					let dStatus = !status ? "" : `[${status.Value}]`;
-					return 	`<div style="font-weight:bold;">${obj.FirstName}. (${obj.Email})</div>` + 
-							`<div> ${dCountry} ${dStatus} <span class='webix_icon wxi-trash' style='float:right;'></span></div>`;
+					return 	`<div style="font-weight:bold;">${obj.FirstName}. (${obj.Email})</div>
+							<div> ${dCountry} ${dStatus} <span class='webix_icon wxi-trash' style='float:right;'></span></div>`;
 				},
 				onClick:{
 					"wxi-trash":function(e, id) {
