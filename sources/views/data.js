@@ -2,6 +2,7 @@ import { JetView } from "webix-jet";
 import DataTableView from "./datatable.js";
 import { countriesCollection } from "../models/countries.js";
 import { statusesCollection } from "../models/statuses.js";
+import { URLs } from "../other/urls.js";
 
 export default class DataView extends JetView {
 
@@ -23,7 +24,7 @@ export default class DataView extends JetView {
 			}
 		};	
 
-		const name = _("Name");
+		const name = _("Value");
 		const icon = _("Icon");
 
 		const colsCountries = [
@@ -38,13 +39,13 @@ export default class DataView extends JetView {
 
 		const colsStatuses = [
 			{ id:"id", header:"" },
-			{ id:"Name", header:name, fillspace:true },
+			{ id:"Value", header:name, fillspace:true },
 			{ id:"Icon", header:icon },
 			{ id:"delete", header:"", template:"{common.trashIcon()}" },
 		];
 
 		const rulesStatuses = {
-			"Name": webix.rules.isNotEmpty,
+			"Value": webix.rules.isNotEmpty,
 			"Icon": webix.rules.isNotEmpty,
 		};
 
@@ -53,8 +54,8 @@ export default class DataView extends JetView {
 			rows:[
 				tabs,
 				{ cells:[
-					{ id:"cell_countries", rows:[new DataTableView(this.app, countriesCollection, colsCountries, rulesCountries)] },
-					{ id:"cell_statuses", rows:[new DataTableView(this.app, statusesCollection, colsStatuses, rulesStatuses)] },
+					{ id:"cell_countries", rows:[new DataTableView(this.app, countriesCollection, colsCountries, rulesCountries, URLs.urlCountries)] },
+					{ id:"cell_statuses", rows:[new DataTableView(this.app, statusesCollection, colsStatuses, rulesStatuses, URLs.urlStatuses)] },
 				]},
 			]
 		};

@@ -15,4 +15,5 @@ export default {
 	"edit contact" : "edit contact",
 	"Countries" : "Countries",
 	"Statuses" : "Statuses",
+	"Value" : "Value",
 };

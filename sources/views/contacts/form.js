@@ -19,10 +19,10 @@ export default class ContactsFormView extends JetView {
 			localId:"form",
 			elements:[
 				{ view:"template", type:"section", template:edit },
-				{ view:"text", label:name, name:"Name" },
+				{ view:"text", label:name, name:"FirstName" },
 				{ view:"text", label:email, name:"Email" },
-				{ view:"combo", label:status, name:"Status", options:{ body:{ data:statusesCollection, template:"#Name#" }} },
-				{ view:"combo", label:country, name:"Country", options:{ body:{ data:countriesCollection, template:"#Name#" }} },
+				{ view:"combo", label:status, name:"StatusID", options:{ body:{ data:statusesCollection, template:"#Value#" }} },
+				{ view:"combo", label:country, name:"Address", options:{ body:{ data:countriesCollection, template:"#Name#" }} },
 				{ cols:[ 
 					{ view:"button", label:save, css:"webix_primary", click:saveClick },
 					{ view:"button", label:cancel, click:cancelClick },
@@ -30,7 +30,7 @@ export default class ContactsFormView extends JetView {
 				{}
 			],
 			rules:{
-				Name:val => !!val,
+				FirstName:val => !!val,
 				Email:val => !!val,
 			}
 		};
@@ -56,8 +56,12 @@ function saveClick() {
 	}
 	const values = form.getValues();
 	if (!contactsCollection.exists(values.id)) {
-		contactsCollection.add(values);
-		this.$scope.app.callEvent("onAfterContactAdded", []);
+		contactsCollection.waitSave(() => {
+			contactsCollection.add(values);
+		}).then((result) => {
+			values.id = result.id;
+			this.$scope.app.callEvent("onAfterContactAdded", []);
+		});
 	} else {
 		contactsCollection.updateItem(values.id, values);
 	}
