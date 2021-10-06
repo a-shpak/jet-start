@@ -21,9 +21,7 @@ export default class ContactsListView extends JetView {
 				},
 				onClick:{
 					"wxi-trash":function(e, id) {
-						contactsCollection.waitSave(() => {
-							contactsCollection.remove(id);
-						});
+						contactsCollection.remove(id);
 						return false;
 					}
 				},

@@ -26,9 +26,7 @@ export default class DataTableView extends JetView {
 				select:true,
 				onClick: {
 					"wxi-trash":function(e, obj) {
-						data.waitSave(() => {
-							data.remove(obj); 
-						});
+						data.remove(obj); 
 						return false;
 					}
 				},
@@ -48,9 +46,7 @@ export default class DataTableView extends JetView {
 				actionSave:function(values, form) {
 					if (form.validate()) {
 						if (data.exists(values.id)) {
-							data.waitSave(() => {
-								data.updateItem(values.id, values);
-							});
+							data.updateItem(values.id, values);
 						} else {
 							data.waitSave(() => {
 								data.add(values);

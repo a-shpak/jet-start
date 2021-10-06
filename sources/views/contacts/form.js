@@ -63,9 +63,7 @@ function saveClick() {
 			this.$scope.app.callEvent("onAfterContactAdded", []);
 		});
 	} else {
-		contactsCollection.waitSave(() => {
-			contactsCollection.updateItem(values.id, values);
-		});
+		contactsCollection.updateItem(values.id, values);
 	}
 }
 
